@@ -23,15 +23,22 @@ class Polynomial:
         """Lagrange interpolate with the giving points, then evaluate y at x"""
         if len(points) < 2:
             raise ValueError('Lagrange interpolation requires at least 2 points')
-        lagrange = [0] * len(points)
+        # [(numerator, denominator) ...]
+        lagrange = [(0, 0)] * len(points)
+        # the product of all the denominator
+        denominator_product = 1
         for i in range(len(points)):
             numerator, denominator = 1, 1
             for j in range(len(points)):
                 if j != i:
                     numerator *= (x - points[j][0])
                     denominator *= (points[i][0] - points[j][0])
-            lagrange[i] = points[i][1] * numerator // denominator
-        return sum(lagrange) % curve.n
+            lagrange[i] = (points[i][1] * numerator, denominator)
+            denominator_product *= denominator
+        numerator_sum = 0
+        for (numerator, denominator) in lagrange:
+            numerator_sum += numerator * denominator_product // denominator
+        return (numerator_sum // denominator_product) % curve.n
 
     def __init__(self, coefficients: list) -> None:
         if len(coefficients) < 2:
