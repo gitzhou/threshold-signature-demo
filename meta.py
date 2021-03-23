@@ -1,5 +1,5 @@
 from ec_point_operation import curve
-from crypto import ripemd160_sha256, b58check_encode, b58check_decode
+from crypto import ripemd160_sha256, b58check_encode, b58check_decode, sha256, b58_encode
 from binascii import hexlify
 
 
@@ -38,7 +38,7 @@ def address_to_public_key_hash(address: str) -> bytes:
     return decoded[1:]
 
 
-OP_DUP = b'v'
+OP_DUP = b'\x76'
 OP_HASH160 = b'\xa9'
 OP_PUSH_20 = b'\x14'
 OP_EQUALVERIFY = b'\x88'
@@ -89,6 +89,14 @@ def deserialize_signature(serialized: bytes) -> tuple:
         return r, s
     except Exception:
         raise ValueError(f'Invalid DER encoded {hexlify(serialized)}.')
+
+
+def private_key_to_wif(private_key: int, compressed: bool = True) -> str:
+    payload = b'\x80' + private_key.to_bytes(32, byteorder='big')
+    if compressed:
+        payload += b'\x01'
+    checksum = sha256(sha256(payload))[0:4]
+    return b58_encode(payload + checksum)
 
 
 if __name__ == '__main__':

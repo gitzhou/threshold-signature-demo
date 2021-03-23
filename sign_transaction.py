@@ -30,7 +30,10 @@ TxOut = namedtuple('TxOut', 'address satoshi')
 
 
 def serialize_outputs(outputs: list) -> bytes:
-    """Serialize outputs [(address, satoshi), (address, satoshi), ...] to format ((LEN || locking_script) || (LEN || locking_script) || ...)"""
+    """
+    Serialize outputs [(address, satoshi), (address, satoshi), ...]
+    to format (satoshi || LEN(locking_script) || locking_script) || (satoshi || LEN(locking_script) || locking_script) || ...)
+    """
     output_bytes = b''
     for output in outputs:
         output_bytes += output.satoshi.to_bytes(8, byteorder='little') + build_locking_script(address_to_public_key_hash(output.address))

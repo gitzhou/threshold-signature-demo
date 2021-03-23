@@ -1,6 +1,6 @@
 from ec_point_operation import curve, add, scalar_multiply
 from modular_inverse import modular_multiplicative_inverse
-from crypto import double_sha256
+from crypto import double_sha256, sha256
 import random
 
 
@@ -51,14 +51,15 @@ def verify_signature(public_key: tuple, message: bytes, signature: tuple) -> boo
 if __name__ == '__main__':
     priv_key = 0xf97c89aaacf0cd2e47ddbacc97dae1f88bec49106ac37716c451dcdd008a4b62
     pub_key = scalar_multiply(priv_key, curve.g)
-    m = '你好世界'.encode('utf-8')
+    plain_text = '你好世界'
+    digest = sha256(plain_text.encode('utf-8'))
     # Sign
-    sig_r, sig_s = sign(priv_key, m)
+    sig_r, sig_s = sign(priv_key, digest)
     print(' r =', sig_r)
     print(' s =', sig_s)
     # Verify (r, s)
-    print(verify_signature(pub_key, m, (sig_r, sig_s)))
+    print(verify_signature(pub_key, digest, (sig_r, sig_s)))
     # Verify (r, -s)
     negative_s = -sig_s % curve.n
     print('-s =', negative_s)
-    print(verify_signature(pub_key, m, (sig_r, negative_s)))
+    print(verify_signature(pub_key, digest, (sig_r, negative_s)))

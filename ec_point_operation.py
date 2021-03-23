@@ -91,3 +91,8 @@ if __name__ == '__main__':
     ag = scalar_multiply(a, curve.g)
     print('x =', hex(ag[0]))
     print('y =', hex(ag[1]))
+
+    from meta import public_key_to_address, private_key_to_wif
+
+    print(private_key_to_wif(a))
+    print(public_key_to_address(ag))
