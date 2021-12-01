@@ -99,6 +99,15 @@ def private_key_to_wif(private_key: int, compressed: bool = True) -> str:
     return b58_encode(payload + checksum)
 
 
+def wif_to_private_key(wif: str) -> int:
+    if not wif.startswith('5') and not wif.startswith('K') and not wif.startswith('L'):
+        raise ValueError(f'Invalid WIF {wif}')
+    payload = b58check_decode(wif)
+    if wif.startswith('K') or wif.startswith('L'):
+        payload = payload[:-1]
+    return int.from_bytes(payload[1:], byteorder='big')
+
+
 if __name__ == '__main__':
     sig = (114587593887127314608220924841831336233967095853165151956820984900193959037698, 24000727837347392504013031837120627225728348681623127776947626422811445180558)
     serialized_sig = serialize_signature(sig)
