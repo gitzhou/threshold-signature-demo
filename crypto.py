@@ -41,11 +41,6 @@ def b58check_encode(payload: bytes) -> str:
     return b58_encode(payload + double_sha256_checksum(payload))
 
 
-def int_to_bytes(num: int, byteorder: str = 'big') -> bytes:
-    """Converts an int to the least number of bytes as possible."""
-    return num.to_bytes((num.bit_length() + 7) // 8 or 1, byteorder)
-
-
 def b58_decode(encoded: str) -> bytes:
     pad = 0
     for char in encoded:
@@ -61,7 +56,8 @@ def b58_decode(encoded: str) -> bytes:
             num += BASE58_ALPHABET.index(char)
     except KeyError:
         raise ValueError(f'Invalid base58 encoded "{encoded}"')
-    return prefix + int_to_bytes(num)
+    # if num is 0 then (0).to_bytes will return b''
+    return prefix + num.to_bytes((num.bit_length() + 7) // 8, 'big')
 
 
 def b58check_decode(encoded: str) -> bytes:
