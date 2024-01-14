@@ -1,11 +1,12 @@
-from modular_inverse import modular_multiplicative_inverse
-from ec_point_operation import curve, add, scalar_multiply
-from polynomial import Polynomial
-from sign_message import message_digest, verify_message
-from meta import public_key_to_address
-from sign import hash_to_int
 import random
 from base64 import b64encode
+
+from ec_point_operation import curve, add, scalar_multiply
+from meta import public_key_to_address
+from modular_inverse import modular_multiplicative_inverse
+from polynomial import Polynomial
+from sign import hash_to_int
+from sign_message import message_digest, verify_message
 
 
 class ThresholdSignature:
@@ -32,7 +33,7 @@ class ThresholdSignature:
         # Validate t >= 1 and t + 1 <= n and 2t + 1 <= n
         if self.polynomial_order < 1 or self.key_threshold > group_size or self.signature_threshold > group_size:
             raise ValueError(f'Nakasendo threshold should be in interval [2, {(group_size - 1) // 2 + 1}] with {group_size} players')
-        # Generate secret shares for each participants
+        # Generate secret shares for each participant
         self.shares, self.public_key = self.jvrss()
 
     def jvrss(self, debug: bool = False) -> tuple:
@@ -150,7 +151,7 @@ class ThresholdSignature:
                 r = k_x % curve.n
                 recovery_id = 0 | 2 if k_x > curve.n else 0 | k_y % 2
                 mod_inv_k_shares = self.invss(k_shares)
-            # Calculate shares of s for each participants
+            # Calculate shares of s for each participant
             s_shares = []
             for i in range(self.group_size):
                 s_shares.append(((e + r * self.shares[i]) * mod_inv_k_shares[i]) % curve.n)

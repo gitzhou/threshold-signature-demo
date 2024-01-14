@@ -1,5 +1,6 @@
-from threshold_signature import ThresholdSignature
 import random
+
+from threshold_signature import ThresholdSignature
 
 ts = ThresholdSignature(group_size=3, threshold=2)
 

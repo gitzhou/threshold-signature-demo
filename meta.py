@@ -1,6 +1,7 @@
-from ec_point_operation import curve
-from crypto import ripemd160_sha256, b58check_encode, b58check_decode, sha256, b58_encode
 from binascii import hexlify
+
+from crypto import ripemd160_sha256, b58check_encode, b58check_decode, sha256, b58_encode
+from ec_point_operation import curve
 
 
 def int_to_varint(value: int) -> bytes:

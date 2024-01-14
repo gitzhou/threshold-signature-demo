@@ -1,4 +1,5 @@
 import collections
+
 from modular_inverse import modular_multiplicative_inverse
 
 EllipticCurve = collections.namedtuple('EllipticCurve', 'name p a b g n h')

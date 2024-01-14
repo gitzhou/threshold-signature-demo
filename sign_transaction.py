@@ -1,9 +1,10 @@
+from binascii import unhexlify, hexlify
+from collections import namedtuple
+
+from crypto import double_sha256
 from ec_point_operation import curve, scalar_multiply
 from meta import int_to_varint, address_to_public_key_hash, build_locking_script, deserialize_signature, serialize_signature, serialize_public_key
-from crypto import double_sha256
 from sign import verify_signature, sign
-from collections import namedtuple
-from binascii import unhexlify, hexlify
 
 VERSION = 0x01.to_bytes(4, 'little')
 SEQUENCE = 0xffffffff.to_bytes(4, byteorder='little')

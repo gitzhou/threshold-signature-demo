@@ -1,8 +1,9 @@
+from base64 import b64encode, b64decode
+
+from ec_point_operation import curve, add, scalar_multiply
 from meta import int_to_varint, public_key_to_address, address_to_public_key_hash, public_key_hash
 from modular_inverse import modular_multiplicative_inverse
-from ec_point_operation import curve, add, scalar_multiply
 from sign import hash_to_int, sign_recoverable, verify_signature
-from base64 import b64encode, b64decode
 
 
 def message_bytes(message: str) -> bytes:

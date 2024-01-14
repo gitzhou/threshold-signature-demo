@@ -1,7 +1,8 @@
+import random
+
+from crypto import double_sha256, sha256
 from ec_point_operation import curve, add, scalar_multiply
 from modular_inverse import modular_multiplicative_inverse
-from crypto import double_sha256, sha256
-import random
 
 
 def hash_to_int(message: bytes) -> int:
