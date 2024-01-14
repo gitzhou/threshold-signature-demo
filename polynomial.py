@@ -1,5 +1,6 @@
-from ec_point_operation import curve
 import random
+
+from ec_point_operation import curve, modular_multiplicative_inverse
 
 
 class Polynomial:
@@ -38,7 +39,7 @@ class Polynomial:
         numerator_sum = 0
         for (numerator, denominator) in lagrange:
             numerator_sum += numerator * denominator_product // denominator
-        return (numerator_sum // denominator_product) % curve.n
+        return numerator_sum * modular_multiplicative_inverse(denominator_product, curve.n) % curve.n
 
     def __init__(self, coefficients: list) -> None:
         if len(coefficients) < 2:

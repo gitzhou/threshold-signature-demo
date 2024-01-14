@@ -170,7 +170,7 @@ class ThresholdSignature:
 
 
 if __name__ == '__main__':
-    ts = ThresholdSignature(group_size=3, threshold=2)
+    ts = ThresholdSignature(group_size=5, threshold=2)
     # Plain text to sign
     plain = 'Threshold Signature Scheme Sign Test\nPrivate key shares:\n' + ThresholdSignature.inspect(ts.shares)
     print(plain)
